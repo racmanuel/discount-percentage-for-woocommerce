@@ -30,29 +30,11 @@ if (!defined('ABSPATH')) {
  */
 if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
     // Yes, WooCommerce is enabled
-    register_activation_hook(__FILE__, 'discount_percentage_for_woocommerce_activate');
+    add_action('plugins_loaded', 'discount_percentage_for_woocommerce_plugin_init');
+    add_filter('woocommerce_sale_flash', 'discount_percentage_for_woocommerce');
 } else {
     // WooCommerce is NOT enabled!
     add_action('admin_notices', 'discount_percentage_for_woocommerce_plugin_notice');
-    register_deactivation_hook(__FILE__, 'discount_percentage_for_woocommerce_deactivate');
-
-}
-
-/**
- * Activate the plugin.
- */
-function discount_percentage_for_woocommerce_activate()
-{
-    add_action('plugins_loaded', 'discount_percentage_for_woocommerce_plugin_init');
-    add_filter('woocommerce_sale_flash', 'discount_percentage_for_woocommerce');
-}
-
-/**
- * Deactivation hook.
- */
-function discount_percentage_for_woocommerce_deactivate()
-{
-    remove_filter('woocommerce_sale_flash', 'discount_percentage_for_woocommerce');
 }
 
 /**
