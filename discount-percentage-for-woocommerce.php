@@ -1,29 +1,36 @@
 <?php
 /**
- * Plugin Name: Discount Percentage for WooCommerce
- * Plugin URI:  https://racmanuel.dev/plugins/discount-percentage-for-woocommerce
- * Description: Plugin will Replace "Sale" badge on every sales product with percentage of discount.
- * Version:     1.0.0
- * Author:      Manuel Ramirez Coronel
- * Author URI:  https://racmanuel.dev
- * Text Domain: discount-percentage-for-woocommerce
- * Domain Path: /languages
- * License:     GPLv2 or later
- * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ * The plugin bootstrap file
  *
- * @package     Discount Percentage for WooCommerce
- * @author      Manuel Ramirez Coronel
- * @copyright   2022
- * @license     GPLv2 or later
+ * This file is read by WordPress or ClassicPress to generate the plugin information in the plugin
+ * admin area. This file also includes all of the dependencies used by the plugin,
+ * registers the activation and deactivation functions, and defines a function
+ * that starts the plugin.
+ *
+ * @link              https://racmanuel.dev
+ * @since             1.0.1
  *
  * @wordpress-plugin
- *
- * Prefix:      discount_percentage_for_woocommerce
+ * Plugin Name:       Discount Percentage for WooCommerce
+ * Plugin URI:        hhttps://racmanuel.dev/plugins/discount-percentage-for-woocommerce
+ * Description:       Plugin will Replace "Sale" badge on every sales product with percentage of discount.
+ * Version:           1.0.1
+ * Author:            Manuel Ramirez Coronel
+ * Requires at least: 5.2
+ * Requires PHP:      7.4
+ * Tested up to:      6.4
+ * Author URI:        https://racmanuel.dev/
+ * License:           GPL-2.0+
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain:       discount-percentage-for-woocommerce
+ * Domain Path:       /languages
  */
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
+
+require __DIR__ . '/vendor/autoload.php';
 
 /**
  * Check if WooCommerce is Active/Deactive
@@ -110,3 +117,23 @@ function discount_percentage_for_woocommerce_plugin_notice()
         printf('<div class="%1$s"><p>%2$s</p></div>', esc_attr($class), esc_html($message));
     }
 }
+
+/**
+ * Initialize the plugin tracker
+ *
+ * @return void
+ */
+function appsero_init_tracker_discount_percentage_for_woocommerce() {
+
+    if ( ! class_exists( 'Appsero\Client' ) ) {
+      require_once __DIR__ . '/appsero/src/Client.php';
+    }
+
+    $client = new Appsero\Client( 'fda167fc-af73-4087-b921-5d1eade6887d', 'Discount Percentage for WooCommerce', __FILE__ );
+
+    // Active insights
+    $client->insights()->init();
+
+}
+
+appsero_init_tracker_discount_percentage_for_woocommerce();
